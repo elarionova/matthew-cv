@@ -24,7 +24,7 @@
 				<div class="ribbon_body">
 					<div>
 						<p><span style="color: #A0BA97;">mail</span> matthewtff@gmail.com</p>
-						<p><span style="color: #A0BA97;">skype</span> matthewtff.asm</p>
+						<p><span style="color: #A0BA97;">skype</span> matthew.asm</p>
 					</div>
 				</div>
 			</div>
@@ -41,13 +41,13 @@
 
    <div class="row job_exp">
    	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-   		<h2>Work experience<span class="gray"> (5 years 6 months)</span></h2>
+   		<h2>Work experience <span class="gray">(</span><span class="gray" id="total_period"></span><span class="gray">)</span></h2>
    		<div class="timeline"></div>
    			<div class="row">
    				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 
 		   			<div class="job_section">
-		   				<div class="job_date">2017</div>
+		   				<div id="current_year" class="job_date"></div>
 		   				<div class="job_point"></div>
 
 		   				<div class="job_name">
@@ -57,7 +57,7 @@
 			   			
 			   				<div class="job_descript">
 			   					<div class="position">Senior software developer</div>
-		   						<div class="period">April 2013 — until now <span class="gray">(3 years 11 months)</span></div>
+		   						<div class="period">April 2013 — till now <span class="gray">(</span><span class="gray"  id = "last_period"></span><span class="gray">)</span></div>
 		   						
 		   						
 			   					<p class="job_p">Development and maintaining several component of browser. Very high quality of code was reached using high density of tests(unit, integration, performance) coverage and code review and upstream Chromium project.<p>
@@ -86,7 +86,7 @@
 			   			
 			   				<div class="job_descript">
 			   					<div class="position">Software developer</div>
-		   						<div class="period">March 2012 — April 2013 <span class="gray">(1 year 2 months)</span></div>
+		   						<div class="period">March 2012 — April 2013 <span class="gray">(1 year 1 month)</span></div>
 		   						
 		   						
 			   					<p class="job_p">Development of number of utilities for collecting information from remote hosts.</p>
@@ -113,7 +113,7 @@
 			   			
 			   				<div class="job_descript">
 			   					<div class="position">Software developer</div>
-		   						<div class="period">September 2011 — February 2012 <span class="gray">(6 months)</span></div>
+		   						<div class="period">September 2011 — February 2012 <span class="gray">(5 months)</span></div>
 		   						
 		   						
 			   					<p class="job_p">Developed kernel subsystem of live handwritten text recognition software written in C++ for handheld devices.</p>
@@ -160,7 +160,49 @@
 
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/getdate.js"></script>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function (d, w, c) {
+  (w[c] = w[c] || []).push(function() {
+  try {
+  w.yaCounter43063704 = new Ya.Metrika({
+  id:43063704,
+  clickmap:true,
+  trackLinks:true,
+  accurateTrackBounce:true,
+  webvisor:true,
+  trackHash:true
+  });
+  } catch(e) { }
+  });
 
+  var n = d.getElementsByTagName("script")[0],
+  s = d.createElement("script"),
+  f = function () { n.parentNode.insertBefore(s, n); };
+  s.type = "text/javascript";
+  s.async = true;
+  s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+  if (w.opera == "[object Opera]") {
+  d.addEventListener("DOMContentLoaded", f, false);
+  } else { f(); }
+  })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/43063704" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<!--Google Analytics-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92667702-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 
   
