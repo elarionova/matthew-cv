@@ -1,6 +1,9 @@
+const crypto = require('crypto');
+const fs = require('fs');
 const http = require('http');
 const url = require('url');
-const fs = require('fs');
+
+"use strict";
 
 function GetHost() {
   if (process.env.OPENSHIFT_NODEJS_IP)
@@ -18,26 +21,27 @@ const hostname = GetHost();
 const port = GetPort();
 const kIndexPath = '/index.html';
 
-function Respond500(res) {
-  res.statusCode = 500;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Something bad happend. Please, try again later\n');
-}
-
-function Serve(res, path) {
-  res.statusCode = 200;
+function Serve(req, res, path) {
+  const requested_tag = req.headers['if-none-match'];
   const info = static_files[path];
-  res.setHeader('Content-Type', info['content-type']);
-  res.setHeader('Content-Size', info['size']);
-  res.end(info['data']);
+  if (requested_tag && requested_tag == info['etag']) {
+    res.statusCode = 304;
+    res.end();
+  } else {
+    res.statusCode = 200;
+    res.setHeader('content-type', info['content-type']);
+    res.setHeader('content-size', info['size']);
+    res.setHeader('etag', info['etag']);
+    res.end(info['data']);
+  }
 }
 
 function OnRequest(req, res) {
   if (req.url == '/')
-    return Serve(res, kIndexPath);
+    return Serve(req, res, kIndexPath);
   const url_options = url.parse(req.url);
   if (static_files.hasOwnProperty(url_options.pathname))
-    return Serve(res, url_options.pathname);
+    return Serve(req, res, url_options.pathname);
   res.statusCode = 404;
   res.setHeader('Content-Type', 'text/plain');
   res.end('Page not found\n');
@@ -80,15 +84,22 @@ function GetFiles(directory) {
   return files;
 }
 
+function GetHash(data) {
+  const key = (new Date()).toString();
+  return crypto.createHmac('sha256', key).update(data).digest('hex');
+}
+
 function GetStaticFiles() {
   const kStaticFolderPath = './static/';
   var static_files = {};
   GetFiles(kStaticFolderPath).map(function(file_name) {
     const file_path = file_name.substr(kStaticFolderPath.length - 1);
+    const data = fs.readFileSync(file_name);
     static_files[file_path] = {
       'content-type': GetContentType(file_path),
       'size': fs.statSync(file_name).size,
-      'data': fs.readFileSync(file_name)
+      'data': data,
+      'etag': GetHash(data),
     };
   });
   return static_files;
