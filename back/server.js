@@ -53,6 +53,7 @@ function GetContentType(path) {
     '.js': 'application/javascript',
     '.css': 'text/css',
     '.jpeg': 'image/jpeg',
+    '.pdf': 'application/pdf',
     '.woff': 'application/font-woff',
     '.ttf': 'application/font-ttf',
     '.eot': 'application/vnd.ms-fontobject',
