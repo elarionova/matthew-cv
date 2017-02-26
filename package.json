@@ -1,0 +1,30 @@
+{
+  "name": "matthewtff-cv-site",
+  "version": "0.0.1",
+  "description": "CV site for matthewtff",
+  "keywords": [
+    "CV"
+  ],
+  "author": {
+    "name": "Eugenie Larionova",
+    "email": "eugenietff@matcatlab.ru",
+    "url": "http://www.matcatlab.ru/"
+  },
+  "homepage": "http://www.matcatlab.ru/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elarionova/matthew-cv.git"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "bundleDependencies": [],
+  "private": true,
+  "main": "back/server.js",
+  "scripts": {
+    "start": "supervisor back/server.js"
+  }
+}
