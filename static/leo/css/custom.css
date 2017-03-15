@@ -1,0 +1,229 @@
+
+body 
+{
+	background-image: url("img/00.jpg");
+	background-repeat: repeat-y;
+	background-position: center;
+	background-size: 100%;
+}
+h1
+{
+	color: #fff;
+	font-family: 'Neucha', cursive;
+	font-size: 50px;
+	text-align: center;
+}
+.prev
+{
+	cursor: pointer;
+}
+
+.item
+{
+	font-family: 'Pangolin', cursive;
+	font-size: 18px;
+	border: none;
+
+}
+.panel-body
+{
+	font-size: inherit;
+}
+
+.prev:hover
+{
+
+	background-color: #d2ffce;
+	box-shadow: 0 0 15px 2px #fff;
+}
+.date_pan
+{
+	
+	font-weight: bold;
+	text-align: right;
+	background-color: #fdffce;
+	font-size: 25px;
+}
+
+.video
+{
+	max-height: 360px;
+	text-align: center;
+}
+
+.item_img_vr:hover,.item_img_hr:hover
+{
+	cursor: pointer;
+
+	box-shadow: 0 0 15px 2px #fdffce;
+}
+
+.item_img_vr
+{
+	position: relative;
+	max-height: 150px;
+	text-align: center;
+	transform:rotate(90deg);
+	
+}
+.item_img_vr>img 
+{
+	
+	max-height: 150px;
+}
+.item_img_hr
+{
+	position: relative;
+	max-width: inherit;
+	text-align: center;
+}
+.item_img_hr>img
+{
+	width:100%;
+}
+.back
+{
+	position:fixed;
+	width:80px;
+	text-align: left;
+	top:20px;
+	left:-2px;
+	cursor: pointer;
+	z-index: 99;
+}
+
+.breadcrumb
+{
+	border: 1px solid #e1e1e1;
+	background-color: #fdffce;
+	font-size: 15px;
+}
+.breadcrumb:hover
+{
+	box-shadow: 0 0 15px 2px #fff;
+}
+.breadcrumb>li>*
+{
+	color:#000;
+	text-decoration: none;
+}
+#photo_popup
+{
+	position:fixed;
+	top:0px;
+	bottom:0px;
+	right:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	/*height:auto;*/
+	background-color: rgba(255,255,255,0.95);
+	z-index: 999;
+	display:none;
+	overflow: auto;
+
+}
+.photo_large
+{
+	text-align: center;
+	width:98%;
+	height: 98%;
+	padding:1%;
+}
+.photo_large>img 
+{
+
+}
+
+.popup_img_hr
+{
+	/*height:98%;*/
+	width:98%;
+	height:98%;
+
+}
+.popup_img_hr>img
+{
+	height:98%;
+	
+}
+.popup_img_vr
+{
+	width:98%;
+}
+
+
+
+@media (max-device-width: 1023px) and (orientation: portrait)
+{
+	h1
+	{
+		font-size: 70px;
+	}
+	
+	.caption>p
+	{
+		font-size: 65px;
+	}
+	.date_pan
+	{
+		font-size: 45px;
+	}
+	.panel-body
+	{
+		font-size: 40px;
+	}
+	.breadcrumb
+	{
+		font-size: 40px;
+	}
+	.back
+	{
+		width:140px;
+	}
+		.close
+	{
+		font-size: 50px;
+	}
+	.popup_img_hr
+	{
+		height: 35%;
+	}
+	.popup_img_hr>img
+	{
+		height:auto;
+		width:98%;
+	}
+}
+
+@media (max-device-width: 1023px) and (orientation: landscape)
+{
+	h1
+	{
+		font-size: 70px;
+	}
+	.caption>p
+	{
+		font-size: 55px;
+	}
+	.date_pan
+	{
+		font-size: 35px;
+	}
+		.panel-body
+	{
+		font-size: 25px;
+	}
+		.breadcrumb
+	{
+		font-size: 30px;
+	}
+		.back
+	{
+		width:120px;
+	}
+	.close
+	{
+		font-size: 40px;
+	}
+}

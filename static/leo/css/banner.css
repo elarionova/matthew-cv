@@ -1,0 +1,15 @@
+.img_container {
+position:relative;
+height:400px;
+width:100%;
+margin-bottom:20px;
+}
+
+#slide_show
+{
+	position:absolute;
+	left:0;
+	display:block;
+}
+
+#slide_show2 {display:none;}
