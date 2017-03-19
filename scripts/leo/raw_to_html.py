@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import re
 
-RAW_FILE_NAME = 'raw.txt'
+RAW_FILE_NAME = os.path.join('scripts', 'leo', 'raw.txt')
+HTML_FILES_FOLDER = os.path.join('static', 'leo')
+
+MONTH_LABEL = '{}й месяц'
 
 PARSED_HTML = re.compile('^(\d{2})\.html$')
 REQUIRED_HTML = re.compile('^(\d{2}\.html)$')
@@ -36,7 +40,7 @@ HTML_FILE_HEADER = """<!doctype html>
        </div>
        <div class="photo_large"></div>
      </div>
-     <h1>{} месяц</h1>
+     <h1>{}</h1>
      <div class="row">"""
 
 HTML_FILE_FOOTER = """
@@ -64,16 +68,15 @@ class ContentType:
     TEXT = 'text'
     NEWLINE = 'newline'
 
-
 def get_file_contents():
     with open(RAW_FILE_NAME) as raw_file:
         return [line.strip() for line in raw_file.readlines()]
 
 def _normalize_date(line):
     parsed_date = PARSED_DATE.match(line)
-    return '{}.{}.{}'.format(int(parsed_date.group(2)),
-                             int(parsed_date.group(3)),
-                             int(parsed_date.group(4)))
+    return '{dd}.{mm:02d}.{yyyy}'.format(dd=int(parsed_date.group(2)),
+                                         mm=int(parsed_date.group(3)),
+                                         yyyy=int(parsed_date.group(4)))
 
 
 def is_date(line):
@@ -108,11 +111,13 @@ def classify_content(line):
 
 def render_header(file_name):
     month = int(PARSED_HTML.match(file_name).group(1))
-    return HTML_FILE_HEADER.format(month + 1)
+    month_label = MONTH_LABEL.format(month)
+    if month == 0:
+        month_label = 'Лёва родился!'
+    return HTML_FILE_HEADER.format(month_label)
 
 def render_footer(file_name):
-    MONTH_LABEL = '{} месяц'
-    HTML_NAME = '{}.html'
+    HTML_NAME = '{0:02d}.html'
     PREV_LI = ('<li class="previous"><a href="{}">'
         '<span aria-hidden="true">&larr;</span>{}</a></li>')
     NEXT_LI = ('<li class="next"><a href="{}">{}<span aria-hidden="true">'
@@ -123,6 +128,8 @@ def render_footer(file_name):
     if month > 0:
         prev_html = HTML_NAME.format(month - 1)
         prev_month = MONTH_LABEL.format(month - 1)
+        if month - 1 == 0:
+            prev_month = 'Лёва родился!'
         prev_li = PREV_LI.format(prev_html, prev_month)
     if month < 11:
         next_html = HTML_NAME.format(month + 1)
@@ -137,7 +144,8 @@ def render_body(paragraphs):
         if len(paragraph) == 0:
            continue
         body += '<hr/>'
-        body += paragraph[0]
+        for text in paragraph:
+            body += text + ' '
     return body[5:]  # Skip first '<hr/>'
 
 def render_card(card):
@@ -196,7 +204,7 @@ def get_files(classified_content):
 def process_contents(contents):
     classified_content = [(classify_content(line), line) for line in contents]
     for file_name, cards in get_files(classified_content):
-        with open(file_name, 'wb+') as html:
+        with open(os.path.join(HTML_FILES_FOLDER, file_name), 'wb+') as html:
             html.write(render_header(file_name))
             for card in cards:
                 html.write(render_card(card))
