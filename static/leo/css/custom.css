@@ -1,10 +1,15 @@
 
+html
+{
+	min-width: 740px;
+}
 body 
 {
 	background-image: url("img/00.jpg");
 	background-repeat: repeat-y;
 	background-position: center;
 	background-size: 100%;
+	
 }
 h1
 {
@@ -156,6 +161,10 @@ h1
 
 @media (max-device-width: 1023px) and (orientation: portrait)
 {
+	html 
+	{
+		min-width: 0px;
+	}
 	h1
 	{
 		font-size: 70px;
@@ -175,11 +184,11 @@ h1
 	}
 	.breadcrumb
 	{
-		font-size: 40px;
+		font-size: 35px;
 	}
 	.back
 	{
-		width:140px;
+		width:160px;
 	}
 		.close
 	{
@@ -198,6 +207,10 @@ h1
 
 @media (max-device-width: 1023px) and (orientation: landscape)
 {
+	html 
+	{
+		min-width: 0px;
+	}
 	h1
 	{
 		font-size: 70px;
@@ -220,7 +233,7 @@ h1
 	}
 		.back
 	{
-		width:120px;
+		width:140px;
 	}
 	.close
 	{

@@ -1,51 +1,8 @@
-var imgs = ["img/01.jpg", "img/02.jpg", "img/03.png", "img/04.jpg", "img/05.png", "img/06.jpg" ];
-/*var timer = null;
-var ind = 0;
-
-var id_name = "banner";
-
-function invisBanner(id_name)
-{
-	var img = document.getElementById(id_name);
-	img.className="banner_stop";	
-}
-
-function visBanner(id_name)
-{
-	var img = document.getElementById(id_name);
-	img.className="banner_start";	
-}
-
-function changeSrc (id_name)
-{
-	var img = document.getElementById(id_name);
-	if(ind  >= img_arr.length)
-        ind = 0;
-	var time=3000;
- $(id_name).fadeOut(time, function() {    //для картинок
-  $(this).attr('src', img_arr[ind]).fadeIn(time);
- });
-	//img.src="img/"+img_arr[ind];
-	ind++;
-	
-	
-}
-
-
-
-
- function showBanner (id_name)
- {
- 	
- 	timer = setInterval("changeSrc(id_name)", 6000);
- 	
- }
-
-
-showBanner("banner");
-
-
-*/
+var imgs = ["img/main/00.jpg", "img/main/01.jpg", "img/main/02.jpg", "img/main/03.jpg",
+"img/main/04.jpg", "img/main/05.jpg", "img/main/06.jpg", "img/main/07.jpg", "img/main/08.jpg", 
+"img/main/09.jpg", "img/main/10.jpg", "img/main/11.jpg", "img/main/12.jpg", "img/main/13.jpg", "img/main/14.jpg",
+"img/main/15.jpg", "img/main/16.jpg", "img/main/17.jpg", "img/main/18.jpg", "img/main/19.jpg", "img/main/20.jpg",
+"img/main/21.jpg", "img/main/22.jpg", "img/main/23.jpg", "img/main/24.jpg",  ];
 
 var n=0;
 var next="";
