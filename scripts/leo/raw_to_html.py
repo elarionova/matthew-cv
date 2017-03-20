@@ -5,9 +5,12 @@ import os
 import re
 
 RAW_FILE_NAME = os.path.join('scripts', 'leo', 'raw.txt')
-HTML_FILES_FOLDER = os.path.join('static', 'leo')
+HTML_FILES_DIR = os.path.join('static', 'leo')
+IMG_FILES_DIR = os.path.join('static', 'leo', 'img')
 
 MONTH_LABEL = '{}й месяц'
+
+IMG_FILE_NAME = re.compile('^(\d+)_(\d+)_(\d+)_?(\d+)?\.[jpgpnJPGPN]{3}$')
 
 PARSED_HTML = re.compile('^(\d{2})\.html$')
 REQUIRED_HTML = re.compile('^(\d{2}\.html)$')
@@ -72,12 +75,33 @@ def get_file_contents():
     with open(RAW_FILE_NAME) as raw_file:
         return [line.strip() for line in raw_file.readlines()]
 
-def _normalize_date(line):
-    parsed_date = PARSED_DATE.match(line)
-    return '{dd}.{mm:02d}.{yyyy}'.format(dd=int(parsed_date.group(2)),
-                                         mm=int(parsed_date.group(3)),
-                                         yyyy=int(parsed_date.group(4)))
+def _date_from_regex(match, group_shift):
+    return '{dd}.{mm:02d}.{yyyy}'.format(dd=int(match.group(group_shift + 1)),
+                                         mm=int(match.group(group_shift + 2)),
+                                         yyyy=int(match.group(group_shift + 3)))
 
+def _normalize_date(line):
+    return _date_from_regex(PARSED_DATE.match(line), 1)
+
+
+def _get_image_info(path):
+    parsed_date = IMG_FILE_NAME.match(os.path.basename(path))
+    if parsed_date:
+        card = parsed_date.group(4)
+        return {
+            'date': _date_from_regex(parsed_date, 0),
+            'path': path,
+            'card': 1 if card is None else int(card),
+        }
+    return None
+
+
+def collect_images():
+    images = []
+    for dirpath, dirnames, filenames in os.walk(IMG_FILES_DIR):
+        images += filter(None, map(_get_image_info, [
+            os.path.join(dirpath, filename) for filename in filenames]))
+    return {(info['date'], info['card']) : info['path'] for info in images}
 
 def is_date(line):
     required_date = REQUIRED_DATE.match(line)
@@ -146,18 +170,25 @@ def render_body(paragraphs):
         body += '<hr/>'
         for text in paragraph:
             body += text + ' '
-    return body[5:]  # Skip first '<hr/>'
+    return body[5:].strip()  # Skip first '<hr/>'
 
-def render_card(card):
+def render_card(card, image_path):
+    image = ''
+    if image_path:
+        url = os.path.relpath(image_path, HTML_FILES_DIR)
+        image = """
+          <div class="item_img_hr">
+            <img src="{}" onclick="showImg(this);"/>
+          </div>""".format(url)
     return """
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
       <div class="panel item">
         <div class="panel-heading date_pan">
           <h3 class="panel-title date_pan">{}</h3>
         </div>
-        <div class="panel-body">{}</div>
+        <div class="panel-body">{}{}</div>
       </div>
-    </div>""".format(card['date'], render_body(card['paragraphs']))
+    </div>""".format(card['date'], render_body(card['paragraphs']), image)
 
 def get_files(classified_content):
     file_name = None
@@ -201,14 +232,24 @@ def get_files(classified_content):
     append_card(card)
     yield file_name, cards
 
-def process_contents(contents):
+def process_contents(contents, images):
     classified_content = [(classify_content(line), line) for line in contents]
     for file_name, cards in get_files(classified_content):
-        with open(os.path.join(HTML_FILES_FOLDER, file_name), 'wb+') as html:
+        with open(os.path.join(HTML_FILES_DIR, file_name), 'wb+') as html:
             html.write(render_header(file_name))
+            card_number = 1
+            current_date = None
             for card in cards:
-                html.write(render_card(card))
+                if card['date'] == current_date:
+                    card_number = card_number + 1
+                else:
+                    card_number = 1
+                current_date = card['date']
+
+                image_path = images.get((current_date, card_number), None)
+                html.write(render_card(card, image_path))
             html.write(render_footer(file_name))
 
 if __name__ == '__main__':
-    process_contents(get_file_contents())
+    images = collect_images()
+    process_contents(get_file_contents(), images)
