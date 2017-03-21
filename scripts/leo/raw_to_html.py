@@ -162,16 +162,6 @@ def render_footer(file_name):
 
     return HTML_FILE_FOOTER.format(prev_li, next_li)
 
-def render_body(paragraphs):
-    body = ''
-    for paragraph in paragraphs:
-        if len(paragraph) == 0:
-           continue
-        body += '<hr/>'
-        for text in paragraph:
-            body += text + ' '
-    return body[5:].strip()  # Skip first '<hr/>'
-
 def render_card(card, image_path):
     image = ''
     if image_path:
@@ -188,19 +178,19 @@ def render_card(card, image_path):
         </div>
         <div class="panel-body">{}{}</div>
       </div>
-    </div>""".format(card['date'], render_body(card['paragraphs']), image)
+    </div>""".format(card['date'], ' '.join(card['paragraphs']), image)
 
 def get_files(classified_content):
     file_name = None
     cards = []
 
-    def new_card():
+    def new_card(date=None):
         return  {
-            'date': None,
+            'date': date,
             'paragraphs': [],
         }
     def append_card(card):
-        if card['date'] is not None:
+        if card['date'] is not None and len(card['paragraphs']) > 0:
             cards.append(card)
     card = new_card()
     for content_type, content in classified_content:
@@ -218,16 +208,12 @@ def get_files(classified_content):
                 card['date'] = _normalize_date(content)
             else:
                 append_card(card)
-                card = new_card()
-                card['date'] = _normalize_date(content)
+                card = new_card(date=_normalize_date(content))
         elif content_type == ContentType.NEWLINE:
-            if len(card['paragraphs']) > 0:
-                card['paragraphs'].append([])
+            append_card(card)
+            card = new_card(date=card['date'])
         elif content_type == ContentType.TEXT:
-            if len(card['paragraphs']) > 0:
-                card['paragraphs'][-1].append(content)
-            else:
-                card['paragraphs'].append([content])
+            card['paragraphs'].append(content)
 
     append_card(card)
     yield file_name, cards
