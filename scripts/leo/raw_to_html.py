@@ -10,7 +10,7 @@ IMG_FILES_DIR = os.path.join('static', 'leo', 'img')
 
 MONTH_LABEL = '{0}й месяц'
 
-IMG_FILE_NAME = re.compile('^(\d+)_(\d+)_(\d+)_?(\d+)?\.[jpgpnJPGPN]{3}$')
+IMG_FILE_NAME = re.compile('^(\d+)_(\d+)_(\d+)_?(\d+)?\.[jpegpnJPEGPN]{3,4}$')
 
 PARSED_HTML = re.compile('^(\d{2})\.html$')
 REQUIRED_HTML = re.compile('^(\d{2}\.html)$')
