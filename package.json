@@ -25,6 +25,7 @@
   "private": true,
   "main": "back/server.js",
   "scripts": {
+    "prestart": "python scripts/leo/raw_to_html.py",
     "start": "supervisor back/server.js"
   }
 }
