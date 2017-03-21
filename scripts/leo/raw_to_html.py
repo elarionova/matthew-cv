@@ -8,7 +8,7 @@ RAW_FILE_NAME = os.path.join('scripts', 'leo', 'raw.txt')
 HTML_FILES_DIR = os.path.join('static', 'leo')
 IMG_FILES_DIR = os.path.join('static', 'leo', 'img')
 
-MONTH_LABEL = '{}й месяц'
+MONTH_LABEL = '{0}й месяц'
 
 IMG_FILE_NAME = re.compile('^(\d+)_(\d+)_(\d+)_?(\d+)?\.[jpgpnJPGPN]{3}$')
 
@@ -43,7 +43,7 @@ HTML_FILE_HEADER = """<!doctype html>
        </div>
        <div class="photo_large"></div>
      </div>
-     <h1>{}</h1>
+     <h1>{0}</h1>
      <div class="row">"""
 
 HTML_FILE_FOOTER = """
@@ -52,8 +52,8 @@ HTML_FILE_FOOTER = """
        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
          <nav aria-label="...">
            <ul class="pager">
-             {}
-             {}
+             {0}
+             {1}
            </ul>
          </nav>
         </div>
@@ -101,7 +101,10 @@ def collect_images():
     for dirpath, dirnames, filenames in os.walk(IMG_FILES_DIR):
         images += filter(None, map(_get_image_info, [
             os.path.join(dirpath, filename) for filename in filenames]))
-    return {(info['date'], info['card']) : info['path'] for info in images}
+    infos = {}
+    for info in images:
+        infos[(info['date'], info['card'])] = info['path']
+    return infos
 
 def is_date(line):
     required_date = REQUIRED_DATE.match(line)
@@ -110,7 +113,7 @@ def is_date(line):
     else:
         possible_date = POSSIBLE_DATE.match(line)
         if possible_date:
-            raise RuntimeError('Possible incorrect date: {}'.format(line))
+            raise RuntimeError('Possible incorrect date: {0}'.format(line))
         return False
 
 def is_html(line):
@@ -120,7 +123,7 @@ def is_html(line):
     else:
         possible_html = POSSIBLE_HTML.match(line)
         if possible_html:
-            raise RuntimeError('Possible incorrect html: {}'.format(line))
+            raise RuntimeError('Possible incorrect html: {0}'.format(line))
         return False
 
 def classify_content(line):
@@ -142,9 +145,9 @@ def render_header(file_name):
 
 def render_footer(file_name):
     HTML_NAME = '{0:02d}.html'
-    PREV_LI = ('<li class="previous"><a href="{}">'
-        '<span aria-hidden="true">&larr;</span>{}</a></li>')
-    NEXT_LI = ('<li class="next"><a href="{}">{}<span aria-hidden="true">'
+    PREV_LI = ('<li class="previous"><a href="{0}">'
+        '<span aria-hidden="true">&larr;</span>{1}</a></li>')
+    NEXT_LI = ('<li class="next"><a href="{0}">{1}<span aria-hidden="true">'
         '&rarr;</span></a></li>')
     month = int(PARSED_HTML.match(file_name).group(1))
     prev_li = ''
@@ -168,15 +171,15 @@ def render_card(card, image_path):
         url = os.path.relpath(image_path, HTML_FILES_DIR)
         image = """
           <div class="item_img_hr">
-            <img src="{}" onclick="showImg(this);"/>
+            <img src="{0}" onclick="showImg(this);"/>
           </div>""".format(url)
     return """
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
       <div class="panel item">
         <div class="panel-heading date_pan">
-          <h3 class="panel-title date_pan">{}</h3>
+          <h3 class="panel-title date_pan">{0}</h3>
         </div>
-        <div class="panel-body">{}{}</div>
+        <div class="panel-body">{1}{2}</div>
       </div>
     </div>""".format(card['date'], ' '.join(card['paragraphs']), image)
 
