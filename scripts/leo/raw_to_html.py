@@ -30,38 +30,75 @@ HTML_FILE_HEADER = """<!doctype html>
     <link href="https://fonts.googleapis.com/css?family=Lobster|Neucha|Pangolin"
         rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon.ico.png" type="image/x-icon">
- </head>
- <body>
-   <div class="back" onclick="window.location='main.html'">
-     <ol class="breadcrumb"><li>Главная</li></ol>
-   </div>
-   <div class="container">
-     <div class="alert alert-warning alert-dismissible" role="alert"
-         id="photo_popup">
-       <div class="close" onclick="hideImg();">
-         <span class="glyphicon glyphicon-remove"></span>
-       </div>
-       <div class="photo_large"></div>
-     </div>
-     <h1>{0}</h1>
-     <div class="row">"""
+  </head>
+  <body>
+    <div class="back" onclick="window.location='main.html'">
+      <ol class="breadcrumb"><li>Главная</li></ol>
+    </div>
+    <div class="container">
+      <div class="alert alert-warning alert-dismissible" role="alert"
+          id="photo_popup">
+        <div class="close" onclick="hideImg();">
+          <span class="glyphicon glyphicon-remove"></span>
+        </div>
+        <div class="photo_large"></div>
+      </div>
+      <h1>{0}</h1>
+      <div class="row">"""
 
 HTML_FILE_FOOTER = """
-     </div>
-     <div class="row">
-       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-         <nav aria-label="...">
-           <ul class="pager">
-             {0}
-             {1}
-           </ul>
-         </nav>
-        </div>
       </div>
-   </div><!--container-->
-   <script src="js/jquery-1.9.1.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
-   <script src="js/custom.js"></script>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <nav aria-label="...">
+            <ul class="pager">{0}{1}</ul>
+          </nav>
+         </div>
+       </div>
+    </div><!--container-->
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+    try {
+    w.yaCounter43063704 = new Ya.Metrika({
+    id:43063704,
+    clickmap:true,
+    trackLinks:true,
+    accurateTrackBounce:true,
+    webvisor:true,
+    trackHash:true
+    });
+    } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+    d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/43063704" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-92667702-1', 'auto');
+    ga('send', 'pageview');
+    </script>
   </body>
 </html>"""
 
