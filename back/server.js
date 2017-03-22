@@ -86,8 +86,8 @@ function GetFiles(directory) {
 }
 
 function GetHash(data) {
-  const key = (new Date()).toString();
-  return crypto.createHmac('sha256', key).update(data).digest('hex');
+  const kHashKey = 'matthewtff'
+  return crypto.createHmac('sha256', kHashKey).update(data).digest('hex');
 }
 
 function GetStaticFiles() {
