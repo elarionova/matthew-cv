@@ -65,6 +65,8 @@ HTML_FILE_FOOTER = """
   </body>
 </html>"""
 
+MAX_MONTH = 0
+
 class ContentType:
     DATE = 'date'
     HTML = 'html'
@@ -117,8 +119,10 @@ def is_date(line):
         return False
 
 def is_html(line):
+    global MAX_MONTH
     required_html = REQUIRED_HTML.match(line)
     if required_html:
+        MAX_MONTH = int(PARSED_HTML.match(line).group(1))
         return True
     else:
         possible_html = POSSIBLE_HTML.match(line)
@@ -158,7 +162,7 @@ def render_footer(file_name):
         if month - 1 == 0:
             prev_month = 'Лёва родился!'
         prev_li = PREV_LI.format(prev_html, prev_month)
-    if month < 11:
+    if month < MAX_MONTH:
         next_html = HTML_NAME.format(month + 1)
         next_month = MONTH_LABEL.format(month + 1)
         next_li = NEXT_LI.format(next_html, next_month)
