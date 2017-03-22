@@ -55,7 +55,9 @@ HTML_FILE_FOOTER = """
           </nav>
          </div>
        </div>
-    </div><!--container-->
+    </div><!--container-->"""
+
+HTML_END = """
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
@@ -279,6 +281,7 @@ def process_contents(contents, images):
                 image_path = images.get((current_date, card_number), None)
                 html.write(render_card(card, image_path))
             html.write(render_footer(file_name))
+            html.write(HTML_END)
 
 if __name__ == '__main__':
     images = collect_images()
