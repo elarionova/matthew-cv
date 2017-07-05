@@ -8,8 +8,6 @@ RAW_FILE_NAME = os.path.join('scripts', 'leo', 'raw.txt')
 HTML_FILES_DIR = os.path.join('static', 'leo')
 IMG_FILES_DIR = os.path.join('static', 'leo', 'img')
 
-MONTH_LABEL = '{0}й месяц'
-
 IMG_FILE_NAME = re.compile('^(\d+)_(\d+)_(\d+)_?(\d+)?\.[jpegpnJPEGPN]{3,4}$')
 
 PARSED_HTML = re.compile('^(\d{2})\.html$')
@@ -179,12 +177,39 @@ def classify_content(line):
     else:
         return ContentType.NEWLINE
 
+def correct_string(num, first, second, third):
+    if num > 5:
+        return third
+    if num > 1:
+        return second
+    return first
+
+def month_label(month):
+    if month == 0:
+        return 'Лёва родился!'
+
+    label = ''
+    if month >= 12:
+        years = month / 12
+        month = month % 12
+        years_label = 'год'
+        if years > 1:
+            years_label = 'года'
+        if years > 5:
+            years_label = 'лет'
+        label = '{} {}'.format(
+            years, correct_string(years, 'год', 'года', 'лет'))
+
+    if month == 0:
+        return label
+    month_label = '{} {}'.format(
+        month, correct_string(month, 'месяц', 'месяца', 'месяцев'))
+
+    return '{} {}'.format(label, month_label)
+
 def render_header(file_name):
     month = int(PARSED_HTML.match(file_name).group(1))
-    month_label = MONTH_LABEL.format(month)
-    if month == 0:
-        month_label = 'Лёва родился!'
-    return HTML_FILE_HEADER.format(month_label)
+    return HTML_FILE_HEADER.format(month_label(month))
 
 def render_footer(file_name):
     HTML_NAME = '{0:02d}.html'
@@ -196,15 +221,11 @@ def render_footer(file_name):
     prev_li = ''
     next_li = ''
     if month > 0:
-        prev_html = HTML_NAME.format(month - 1)
-        prev_month = MONTH_LABEL.format(month - 1)
-        if month - 1 == 0:
-            prev_month = 'Лёва родился!'
-        prev_li = PREV_LI.format(prev_html, prev_month)
+        prev_li = PREV_LI.format(HTML_NAME.format(month - 1),
+                                 month_label(month - 1))
     if month < MAX_MONTH:
-        next_html = HTML_NAME.format(month + 1)
-        next_month = MONTH_LABEL.format(month + 1)
-        next_li = NEXT_LI.format(next_html, next_month)
+        next_li = NEXT_LI.format(HTML_NAME.format(month + 1),
+                                 month_label(month + 1))
 
     return HTML_FILE_FOOTER.format(prev_li, next_li)
 
